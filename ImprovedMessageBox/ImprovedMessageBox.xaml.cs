@@ -10,6 +10,7 @@
 namespace MessageBox
 {
     using System;
+    using System.IO;
     using System.Security;
     using System.Windows;
     using System.Windows.Media;
@@ -481,6 +482,123 @@ namespace MessageBox
         }
 
         /// <summary>
+        /// The show.
+        /// </summary>
+        /// <param name="caption">
+        /// The caption.
+        /// </param>
+        /// <param name="text">
+        /// The text.
+        /// </param>
+        /// <param name="button">
+        /// The button.
+        /// </param>
+        /// <param name="image">
+        /// The image in string path.
+        /// </param>
+        /// <param name="backgroundBrush">
+        /// The background Brush.
+        /// </param>
+        /// <param name="borderBrush">
+        /// The border Brush.
+        /// </param>
+        /// <param name="titleBarColor1">
+        /// The title Bar Color 1.
+        /// For e.g. - Color.FromArgb(255, 38, 80, 138)
+        /// </param>
+        /// <param name="titleBarColor2">
+        /// The title Bar Color 2.
+        /// For e.g. - Color.FromArgb(255, 42, 115, 158)
+        /// </param>
+        /// <param name="mainAreaColor1">
+        /// The main Area Color 1.
+        /// For e.g. - Color.FromArgb(255, 112, 164, 185)
+        /// </param>
+        /// <param name="mainAreaColor2">
+        /// The main Area Color 2.
+        /// For e.g. - Color.FromArgb(255, 205, 223, 233)
+        /// </param>
+        /// <returns>
+        /// The <see cref="MessageBoxResult"/>.
+        /// </returns>
+        [SecurityCritical]
+        public static MessageBoxResult Show(
+            string caption,
+            string text,
+            MessageBoxButton button,
+            string image,
+            Brush backgroundBrush = null,
+            Brush borderBrush = null,
+            Color? titleBarColor1 = null,
+            Color? titleBarColor2 = null,
+            Color? mainAreaColor1 = null,
+            Color? mainAreaColor2 = null)
+        {
+            messageBox = new ImprovedMessageBox { TextBlockMessage = { Text = text }, MessageTitle = { Text = caption } };
+
+            /*var color1 = (Color)ColorConverter.ConvertFromString("#26508A"); // Color.FromArgb(255, 38, 80, 138)
+            var color2 = (Color)ColorConverter.ConvertFromString("#2A739E"); // Color.FromArgb(255, 42, 115, 158)
+            var color3 = (Color)ColorConverter.ConvertFromString("#70A4B9"); // Color.FromArgb(255, 112, 164, 185)
+            var color4 = (Color)ColorConverter.ConvertFromString("#CDDFE9"); // Color.FromArgb(255, 205, 223, 233)
+            */
+
+            if (backgroundBrush != null)
+            {
+                messageBox.WindowMessageBox.Background = backgroundBrush;
+            }
+
+            if (borderBrush != null)
+            {
+                messageBox.Border.BorderBrush = borderBrush;
+            }
+
+            try
+            {
+                if (titleBarColor1 != null && titleBarColor2 != null)
+                {
+                    messageBox.GradientStopColorForTitleBar.Color = (Color)titleBarColor1;
+                    messageBox.GradientStopColorForTitleBar2.Color = (Color)titleBarColor2;
+                }
+                else if (titleBarColor1 != null || titleBarColor2 != null)
+                {
+                    throw new NotSupportedException("Please specify both the colors!");
+                }
+
+                if (mainAreaColor1 != null && mainAreaColor2 != null)
+                {
+                    messageBox.GradientStopColorForMainArea.Color = (Color)mainAreaColor1;
+                    messageBox.GradientStopColorForMainArea2.Color = (Color)mainAreaColor2;
+                }
+                else if (mainAreaColor1 != null || mainAreaColor2 != null)
+                {
+                    throw new NotSupportedException("Please specify both the colors!");
+                }
+            }
+            catch (Exception e)
+            {
+                messageBox.TextBlockMessage.Text = e.Message;
+            }
+
+            SetVisibilityOfButtons(button);
+
+            try
+            {
+                if (!string.IsNullOrEmpty(image))
+                {
+                    messageBox.SetImage(image);
+                    messageBox.Image.Visibility = Visibility.Visible;
+                }
+            }
+            catch (Exception e)
+            {
+                messageBox.TextBlockMessage.Text = e.Message;
+            }
+
+            messageBox.ShowDialog();
+            return result;
+        }
+
+        /// <summary>
         /// The set visibility of buttons.
         /// </summary>
         /// <param name="button">
@@ -535,7 +653,7 @@ namespace MessageBox
                     messageBox.SetImage("Information.png");
                     break;
                 case MessageBoxImage.Error:
-                    messageBox.SetImage("Error.png");
+                    messageBox.SetImage("Cancel1.bmp");
                     break;
                 case MessageBoxImage.None:
                     break;
@@ -589,9 +707,16 @@ namespace MessageBox
         /// </param>
         private void SetImage(string imageName)
         {
-            var uri = $"/Resources/images/{imageName}";
+            var uri = imageName;
             var uriSource = new Uri(uri, UriKind.RelativeOrAbsolute);
-            this.Image.Source = new BitmapImage(uriSource);
+            try
+            {
+                this.Image.Source = new BitmapImage(uriSource);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

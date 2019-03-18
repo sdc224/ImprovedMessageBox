@@ -39,7 +39,7 @@ namespace SampleWpfApp
                 Color.FromRgb(112, 164, 185),
                 Color.FromRgb(205, 223, 233));*/
 
-            var r = ImprovedMessageBox.Show("Title", "Are you sure?", MessageBoxButton.YesNo, Brushes.White, Brushes.Black);
+            var r = ImprovedMessageBox.Show("Title", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Error);
 
             if (r != MessageBoxResult.Yes)
             {
