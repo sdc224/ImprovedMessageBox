@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DDA751A1-9C25-437E-8751-77DD2F600109}</ProjectGuid>
+    <ProjectGuid>{4764DD3F-2EA2-4296-9889-7401CE8476A8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MessageBox</RootNamespace>
-    <AssemblyName>ImprovedMessageBox</AssemblyName>
+    <RootNamespace>SampleWpfApp</RootNamespace>
+    <AssemblyName>SampleWpfApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -55,25 +55,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ImprovedMessageBox.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Style\ImprovedMessageBoxButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImprovedMessageBox.xaml.cs">
-      <DependentUpon>ImprovedMessageBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MessageBoxImage.cs" />
-    <Compile Include="MessageBoxType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -98,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImprovedMessageBox\ImprovedMessageBox.csproj">
+      <Project>{DDA751A1-9C25-437E-8751-77DD2F600109}</Project>
+      <Name>ImprovedMessageBox</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
