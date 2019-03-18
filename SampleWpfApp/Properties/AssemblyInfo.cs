@@ -8,9 +8,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SampleWpfApp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Sample WPF App for checking whether the Improved MessageBox is working or not")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("SDCWORLD")]
 [assembly: AssemblyProduct("SampleWpfApp")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
